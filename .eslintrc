@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": false
+  },
+  "extends": "standard",
+  "rules": {
+    "no-console": "off",
+    "max-len": [
+      2,
+      160,
+      4
+    ],
+    "prefer-template": 2,
+    "comma-dangle": ["error", "only-multiline"]
+  }
+}
