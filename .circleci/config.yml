@@ -36,5 +36,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
+      - run:  node ./tests/wait.js
       - run:  node ./tests/seed.js
       - run:  node ./tests/stream.js

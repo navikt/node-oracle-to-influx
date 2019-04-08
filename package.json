@@ -17,7 +17,9 @@
   "scripts": {
     "start": "nodemon",
     "up": "docker-compose up -d --remove-orphans --build",
-    "push": "git add . && git commit -m tmp && git push"
+    "down": "docker-compose down",
+    "push": "git add . && git commit -m tmp && git push",
+    "wait": "wait-on http://localhost:8080"
   },
   "devDependencies": {
     "eslint": "^5.0.0",
@@ -26,6 +28,7 @@
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "wait-on": "^3.2.0"
   }
 }
