@@ -10,6 +10,7 @@ jobs:
 
       # https://circleci.com/docs/2.0/google-auth/#authorizing-the-google-cloud-sdk
       - image: eu.gcr.io/beste-adm/oracle:v20190408
+        command: [--shm_size=1gb]
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
