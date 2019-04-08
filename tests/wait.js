@@ -15,16 +15,15 @@ async function waitOnOracle (oraOptions, attempt) {
     const result = await connection.execute(`SELECT sys_context('USERENV','CURRENT_SCHEMA') as db_user, dbtimezone, SESSIONTIMEZONE  from dual`)
     console.info('connected to oracledatabase ', result.rows[0])
   } catch (e) {
-    if (attempt < 5) {
+    if (attempt < 10) {
       attempt++
+      await sleep(1000)
       waitOnOracle(oraOptions, attempt)
     } else {
-      console.error("Failed connecting to oralce");
+      console.error('Failed connecting to oracle exiting.')
       process.exit(1)
     }
   }
 }
 
-waitOnOracle(config.oraOptions)
-
-
+waitOnOracle(config.oraOptions, 1)
