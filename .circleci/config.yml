@@ -6,12 +6,13 @@ version: 2
 jobs:
   build:
     docker:
+      - image: collinestes/docker-node-oracle:latest
+
       # https://circleci.com/docs/2.0/google-auth/#authorizing-the-google-cloud-sdk
       - image: eu.gcr.io/beste-adm/oracle:v20190408
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
-      - image: collinestes/docker-node-oracle:latest
 
     working_directory: ~/repo
 
