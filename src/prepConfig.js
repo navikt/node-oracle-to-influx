@@ -3,11 +3,11 @@ const constants = require('./constants')
 const defaults = require('./defaults')
 
 /**
- * @param queryConfigs[]
+ * @param rawConfigs[]
  * @returns config[]
  */
-module.exports = function (queryConfigs) {
-  queryConfigs.forEach(conf => {
+module.exports = function (rawConfigs) {
+  rawConfigs.forEach(conf => {
     conf.queryChecksum = md5(conf.queryString)
     conf.schedule = conf.schedule || defaults.schedule
     conf.environment = conf.environment || defaults.environment
@@ -17,5 +17,5 @@ module.exports = function (queryConfigs) {
     conf.tags.push(constants.QUERY_CHECKSUM_FIELD_NAME)
     conf.tags.push(constants.ENVIRONMENT)
   })
-  return queryConfigs
+  return rawConfigs
 }

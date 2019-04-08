@@ -1,4 +1,5 @@
 let config = []
+const prepConfig = require('../prepConfig')
 
 module.exports = {
   find: function (name, environment) {
@@ -7,8 +8,9 @@ module.exports = {
       return JSON.parse(JSON.stringify(conf))
     }
   },
-  set: function (conf) {
-    config = conf
+  set: function (rawConfig) {
+    config = prepConfig(rawConfig)
+    return JSON.parse(JSON.stringify(config))
   },
   get: function () {
     return JSON.parse(JSON.stringify(config))

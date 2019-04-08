@@ -1,9 +1,12 @@
 const oracledb = require('oracledb')
-const config = require('./config')[0]
-const testTable = 'TEST_TABLE_NAME'
+const findConfig = require('./config').find
 
+const testTable = 'TEST_TABLE_NAME'
 const testPassword = 'xxx'
+
 oracledb.autoCommit = true
+const config = findConfig('someMeasurement', 'prod')
+
 oracledb.getConnection(config.oraOptions, async function (err, connection) {
 
   if (err) {
@@ -40,7 +43,7 @@ oracledb.getConnection(config.oraOptions, async function (err, connection) {
           WHEN 4 THEN 'Premium'
         END AS DUMMY
       from dual
-      connect by rownum <= 100000`
+      connect by rownum <= 10000`
     const insertResult = await connection.execute(seedQuery)
     await console.log(`Created ${insertResult.rowsAffected} records.`)
   }

@@ -2,60 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e613b975-7596-4171-9814-c4cdbda15f9b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.eslintrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/michael.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/node-oracle-to-influx.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CODEOWNERS" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bootstrap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/config-linter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/constants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cronenberg.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/defaults.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/influx/createClient.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/influx/ensureDbExists.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/influx/getMaxTime.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/influx/influxTail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/influx/validateMesurementName.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/oraToInflux.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/oracle/connection.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/oracle/multiQuery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/prepConfig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/_admin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/configList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/configView.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/dbInfo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/home.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/influxTail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/itsAlive.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/oraTail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/runJob.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/showSql.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/Logger.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/baseurl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/browseLinks.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/createDate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/getFolderContent.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/makeCacheKey.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/md5.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/oraMetaToMysqlCreate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/seed.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/stream.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/oracle/stream.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/testConfigs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/prepConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/prepConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/seed.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/seed.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/stream.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -69,19 +25,46 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/bootstrap.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/oraToInflux.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="80" column="38" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="102" />
+            <state relative-caret-position="2108">
+              <caret line="124" column="10" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="61" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/stream.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/stream.js">
+        <entry file="file://$PROJECT_DIR$/src/oracle/stream.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+            <state relative-caret-position="40">
+              <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/oracle/connection.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" selection-start-line="8" selection-end-line="12" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -89,8 +72,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/seed.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="106" />
+            <state relative-caret-position="646">
+              <caret line="38" column="43" lean-forward="true" selection-start-line="38" selection-start-column="43" selection-end-line="38" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -107,6 +90,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>../../config</find>
+      <find>startProcessTime</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src</dir>
@@ -123,14 +107,10 @@
         <option value="$PROJECT_DIR$/src/oracle/queries.js" />
         <option value="$PROJECT_DIR$/src/oracle/multiQuery.js" />
         <option value="$PROJECT_DIR$/src/routes/dbInfo.js" />
-        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/src/config-linter.js" />
         <option value="$PROJECT_DIR$/src/defaults.js" />
         <option value="$PROJECT_DIR$/src/utils/baseurl.js" />
         <option value="$PROJECT_DIR$/src/routes/configList.js" />
-        <option value="$PROJECT_DIR$/src/prepConfig.js" />
-        <option value="$PROJECT_DIR$/src/bootstrap.js" />
-        <option value="$PROJECT_DIR$/src/utils/config.js" />
         <option value="$PROJECT_DIR$/src/routes/configView.js" />
         <option value="$PROJECT_DIR$/src/routes/runJob.js" />
         <option value="$PROJECT_DIR$/src/routes/showSql.js" />
@@ -138,11 +118,16 @@
         <option value="$PROJECT_DIR$/docker-compose.yml" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/routes/oraTail.js" />
-        <option value="$PROJECT_DIR$/tests/config.js" />
         <option value="$PROJECT_DIR$/src/oraToInflux.js" />
-        <option value="$PROJECT_DIR$/src/oracle/stream.js" />
+        <option value="$PROJECT_DIR$/src/prepConfig.js" />
+        <option value="$PROJECT_DIR$/tests/testConfigs.js" />
+        <option value="$PROJECT_DIR$/tests/config.js" />
+        <option value="$PROJECT_DIR$/src/bootstrap.js" />
+        <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/src/utils/config.js" />
         <option value="$PROJECT_DIR$/tests/seed.js" />
         <option value="$PROJECT_DIR$/tests/stream.js" />
+        <option value="$PROJECT_DIR$/src/oracle/stream.js" />
       </list>
     </option>
   </component>
@@ -153,17 +138,16 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="411" />
-    <option name="y" value="229" />
-    <option name="width" value="1312" />
-    <option name="height" value="1077" />
+    <option name="x" value="877" />
+    <option name="y" value="226" />
+    <option name="width" value="1320" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -179,30 +163,13 @@
             <path>
               <item name="node-oracle-to-influx" type="b2602c69:ProjectViewProjectNode" />
               <item name="node-oracle-to-influx" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="oracle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="node-oracle-to-influx" type="b2602c69:ProjectViewProjectNode" />
-              <item name="node-oracle-to-influx" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="node-oracle-to-influx" type="b2602c69:ProjectViewProjectNode" />
-              <item name="node-oracle-to-influx" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="node-oracle-to-influx" type="b2602c69:ProjectViewProjectNode" />
-              <item name="node-oracle-to-influx" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -221,6 +188,7 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -284,25 +252,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="411" y="229" width="1312" height="1077" extended-state="0" />
-    <editor active="true" />
+    <frame x="877" y="226" width="1320" height="1027" extended-state="0" />
     <layout>
-      <window_info id="DB Browser" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2007874" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20266041" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="DB Execution Console" />
+      <window_info id="DB Browser" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4996369" weight="0.328934" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32994923" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.34759358" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32994923" />
       <window_info anchor="bottom" id="Docker" order="7" weight="0.32994923" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32994923" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49891067" visible="true" weight="0.33299494" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49891067" visible="true" weight="0.3657754" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5003631" side_tool="true" weight="0.328934" />
+      <window_info anchor="bottom" id="DB Execution Console" order="11" />
+      <window_info anchor="bottom" id="TypeScript" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -356,13 +324,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/showQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/showQuery.js" />
     <entry file="file://$PROJECT_DIR$/src/influx/validateMesurementName.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -374,13 +336,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="179">
           <caret line="518" column="24" selection-start-line="518" selection-start-column="24" selection-end-line="518" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -412,13 +367,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/prepConfig.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="20" lean-forward="true" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.eslintrc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -447,13 +395,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -468,24 +409,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="80" lean-forward="true" selection-start-line="8" selection-start-column="80" selection-end-line="8" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/oracle/multiQuery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" selection-start-line="10" selection-end-line="16" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/oracle/connection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1071">
-          <caret line="63" column="36" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -551,13 +478,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bootstrap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="2" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/baseurl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -583,24 +503,94 @@
     <entry file="file://$PROJECT_DIR$/src/utils/oraMetaToMysqlCreate.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/seed.js">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/nodejs/11.10.0/node-typings/node_modules/@types/node/globals.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="106" />
+        <state relative-caret-position="195">
+          <caret line="191" column="4" selection-start-line="191" selection-start-column="4" selection-end-line="191" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/prepConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/testConfigs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="30" column="1" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/influx/lib/src/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="597" column="4" selection-start-line="597" selection-start-column="4" selection-end-line="597" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="41" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bootstrap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/oraToInflux.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="80" column="38" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="102" />
+        <state relative-caret-position="2108">
+          <caret line="124" column="10" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/stream.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        <state relative-caret-position="272">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oracle/connection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" selection-start-line="8" selection-end-line="12" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/seed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="43" lean-forward="true" selection-start-line="38" selection-start-column="43" selection-end-line="38" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/oracle/stream.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
         </state>
       </provider>
     </entry>

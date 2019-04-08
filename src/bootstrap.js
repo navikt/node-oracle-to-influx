@@ -2,7 +2,6 @@ const logger = require('./utils/Logger')
 const cron = require('./cronenberg')
 const express = require('express')
 const oraToInflux = require('./oraToInflux')
-const prepConfig = require('./prepConfig')
 const setConfig = require('./utils/config').set
 /**
  * Will start the cronjob and return the utility server.
@@ -11,7 +10,6 @@ const setConfig = require('./utils/config').set
  * @returns {app}
  */
 module.exports = function bootstrap (rawConfig) {
-
   const app = express()
   process.on('error', function (err) {
     logger.error(`Uncaught Exception: ${err.message}`)
@@ -33,8 +31,7 @@ module.exports = function bootstrap (rawConfig) {
   /**
    *  Adding Cronjobs
    */
-  const configs = prepConfig(rawConfig)
-  setConfig(configs)
+  const configs = setConfig(rawConfig)
   configs.forEach(function (queryConfig) {
     cron.add(queryConfig.schedule, function () {
       oraToInflux.push(queryConfig, function (err) {
