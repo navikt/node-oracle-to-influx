@@ -19,7 +19,7 @@ async function waitOnOracle (oraOptions, attempt) {
       console.log(e.message)
       attempt++
       await sleep(1000)
-      waitOnOracle(oraOptions, attempt)
+      return waitOnOracle(oraOptions, attempt)
     } else {
       console.error('Failed connecting to oracle exiting.')
       process.exit(1)
