@@ -15,7 +15,8 @@ async function waitOnOracle (oraOptions, attempt) {
     const result = await connection.execute(`SELECT sys_context('USERENV','CURRENT_SCHEMA') as db_user, dbtimezone, SESSIONTIMEZONE  from dual`)
     console.info('connected to oracledatabase ', result.rows[0])
   } catch (e) {
-    if (attempt < 10) {
+    if (attempt < 20) {
+      console.log(e.message)
       attempt++
       await sleep(1000)
       waitOnOracle(oraOptions, attempt)
