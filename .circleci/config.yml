@@ -13,6 +13,7 @@ jobs:
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
+      - image: influxdb:latest
 
     working_directory: ~/repo
 
@@ -35,4 +36,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test
+      - run:  node ./tests/seed.js
+      - run:  node ./tests/stream.js
