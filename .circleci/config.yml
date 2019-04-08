@@ -6,15 +6,12 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: collinestes/docker-node-oracle:latest
+      # https://circleci.com/docs/2.0/google-auth/#authorizing-the-google-cloud-sdk
       - image: eu.gcr.io/beste-adm/oracle:v20190408
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # https://circleci.com/docs/2.0/google-auth/#authorizing-the-google-cloud-sdk
+      - image: collinestes/docker-node-oracle:latest
 
     working_directory: ~/repo
 
@@ -27,7 +24,7 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
+      - run: node -v
       - run: yarn install
 
       - save_cache:
