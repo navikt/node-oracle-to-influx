@@ -5,10 +5,24 @@ oracledb.autoCommit = true
 
 const config = findConfig('someMeasurement', 'prod')
 
-async function waitOnOracle (oraOptions) {
-  const connection = await oracledb.getConnection(oraOptions)
-  const result = await connection.execute(`SELECT sys_context('USERENV','CURRENT_SCHEMA') as db_user, dbtimezone, SESSIONTIMEZONE  from dual`)
-  console.log('connected to oracledatabase ', result.rows[0])
+function sleep (millis) {
+  return new Promise(resolve => setTimeout(resolve, millis))
+}
+
+async function waitOnOracle (oraOptions, attempt) {
+  try {
+    const connection = await oracledb.getConnection(oraOptions)
+    const result = await connection.execute(`SELECT sys_context('USERENV','CURRENT_SCHEMA') as db_user, dbtimezone, SESSIONTIMEZONE  from dual`)
+    console.info('connected to oracledatabase ', result.rows[0])
+  } catch (e) {
+    if (attempt < 5) {
+      attempt++
+      waitOnOracle(oraOptions, attempt)
+    } else {
+      console.error("Failed connecting to oralce");
+      process.exit(1)
+    }
+  }
 }
 
 waitOnOracle(config.oraOptions)
