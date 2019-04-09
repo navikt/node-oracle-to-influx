@@ -2,15 +2,18 @@ const oracledb = require('oracledb')
 const constants = require('../constants')
 const logger = require('../utils/Logger')
 
-const testStream = async function (config, flushFunc) {
+const oraStream = async function (config, flushFunc) {
   const startProcessTime = Date.now()
   const connection = await oracledb.getConnection(config.oraOptions)
   await connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${config.schema} TIME_ZONE = DBTIMEZONE`)
-  const stream = connection.queryStream(config.queryString, config.params)
+  const stream = connection.queryStream(config.queryString, config.oraQueryParams)
   const ignoredFields = [constants.QUERY_CHECKSUM_FIELD_NAME, constants.ENVIRONMENT]
   const points = []
   const metadata = []
   const writePromises = []
+  let startTime = null
+  let endTime = null
+  let totalRows = 0
   stream.on('metadata', function (meta) {
     meta.forEach(v => metadata.push(v.name))
     config.tags.forEach(function (tagName) {
@@ -20,7 +23,7 @@ const testStream = async function (config, flushFunc) {
     })
     Object.keys(config.fields).forEach(function (fieldName) {
       if (!metadata.includes(fieldName)) {
-        throw new Error(`Field ${fieldName} not found in query for ${conf.measurementName}`)
+        throw new Error(`Field ${fieldName} not found in query for ${config.measurementName}`)
       }
     })
   })
@@ -33,6 +36,8 @@ const testStream = async function (config, flushFunc) {
       tags: {},
       fields: {},
     }
+    if (point.timestamp < startTime || !startTime) { startTime = point.timestamp }
+    if (point.timestamp > endTime || !endTime) { endTime = point.timestamp }
     config.tags.forEach(function (tagName) {
       // Tags should always be cast to strings.
       point.tags[tagName] = `${data[metadata.indexOf(tagName)]}`
@@ -46,22 +51,40 @@ const testStream = async function (config, flushFunc) {
     if (points.length === 5000) {
       writePromises.push(flushFunc(points.splice(0, points.length)))
     }
+    /**
+     * Some statistics
+     */
+    totalRows++
+
   })
 
-  stream.on('error', function (error) {
-    logger.error(error.message)
-  })
   return new Promise(function (resolve, reject) {
     stream.on('end', async function () {
-      writePromises.push(flushFunc(points))
+      if (points.length > 0) {
+        writePromises.push(flushFunc(points))
+      }
       await connection.close()
-      const processing_time = (Date.now() - startProcessTime) / 1000
-      logger.info(`Measurement ${config.measurementName} pulled.`, {
-        processing_time,
+      const processingTime = (Date.now() - startProcessTime) / 1000
+      logger.info(`Measurement ${config.measurementName} fetched, and batched in ${writePromises.length} batches.`, {
+        operation: 'oracle/stream',
+        processing_time: processingTime,
       })
-      Promise.all(writePromises).then(resolve)
+
+      Promise.all(writePromises).then(res =>
+        resolve({
+          totalRows,
+          processingTime,
+          numberOfBatches: writePromises.length,
+          startTime,
+          endTime,
+        }),
+      )
+    })
+    stream.on('error', function (error) {
+      logger.error(error.message)
+      reject(error)
     })
   })
 }
 
-module.exports = testStream
+module.exports = oraStream

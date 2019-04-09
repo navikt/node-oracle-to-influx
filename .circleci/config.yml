@@ -14,6 +14,7 @@ jobs:
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
+
       - image: influxdb:latest
 
     working_directory: ~/repo
