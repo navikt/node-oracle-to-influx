@@ -65,30 +65,34 @@ const oraStream = async function (config, flushFunc) {
       await connection.close()
       const processingTime = (Date.now() - startProcessTime) / 1000
       let message
-      if (totalRows === 0) {
-        message = `Measurement ${config.measurementName} did not return any new rows.`
-      } else {
-        message = `Measurement ${config.measurementName}(${startTime.toISOString()} - ${endTime.toISOString()}) fetched,` +
-          ` and batched in ${writePromises.length} batches`
-      }
-      logger.info(message, {
-        event: '',
-        operation: 'oracle/stream',
-        processing_time: processingTime,
-        total_rows: totalRows,
-      })
-      Promise.all(writePromises).then(res =>
+
+      Promise.all(writePromises).then(res => {
+        if (totalRows === 0) {
+          message = `Measurement ${config.measurementName} did not return any new rows.`
+        } else {
+          message = `Measurement ${config.measurementName}(${startTime.toISOString()} - ${endTime.toISOString()}) fetched,` +
+            ` and batched in ${writePromises.length} batches`
+        }
+        logger.info(message, {
+          event: 'BATCHJOB_SUCCESSFUL',
+          operation: `oracle/stream/${config.measurementName}`,
+          processing_time: processingTime,
+          total_rows: totalRows,
+        })
         resolve({
           totalRows,
           processingTime,
           numberOfBatches: writePromises.length,
           startTime,
           endTime,
-        }),
-      )
+        })
+      })
     })
     stream.on('error', function (error) {
-      logger.error(error.message)
+      logger.error(error.message, {
+        event: 'BATCHJOB_FAILED',
+        operation: `oracle/stream/${config.measurementName}`,
+      })
       reject(error)
     })
   })

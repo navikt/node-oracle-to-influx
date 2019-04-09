@@ -83,7 +83,6 @@ module.exports = function (conf, functionCallback) {
         result.memoryUsage = process.memoryUsage().heapUsed - startMemory
         result.sql = sql.replace(/\s+/g, ' ').trim()
         result.params = params
-        // logger.debug(`Query for ${conf.measurementName} done.`, [result.memoryUsage, result.queryTimeMs])
         const dynamicCacheTtl = (result.queryTimeMs / 2) < 600 ? (result.queryTimeMs / 2) : 600
         if (result.rows.length < oracledb.maxRows) {
           /**

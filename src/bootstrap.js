@@ -12,7 +12,9 @@ const setConfig = require('./utils/config').set
 module.exports = function bootstrap (rawConfig) {
   const app = express()
   process.on('error', function (err) {
-    logger.error(`Uncaught Exception: ${err.message}`)
+    logger.error(`Uncaught Exception: ${err.message}`, {
+      event: 'UNCAUGHT_EXCEPTION',
+    })
   })
   process.env.ORA_SDTZ = 'UTC'
   process.env.TZ = 'UTC'

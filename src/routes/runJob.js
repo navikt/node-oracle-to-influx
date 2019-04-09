@@ -14,7 +14,7 @@ module.exports = function (req, res) {
     })
   } else {
     res.status(404).json({
-      status: 'Not found',
+      status: 'Measurement not found',
     })
   }
 }

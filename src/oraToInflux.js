@@ -15,13 +15,13 @@ const oraToInfluxQueue = async.queue(function (conf, funcCallback) {
   } else {
     oraQueryParams.UPDATED_TIME = new Date('1970-01-01')
   }
-  const res = {
+  const functionResult = {
     message: `Running job ${conf.measurementName} in environment ${conf.environment}`,
     level: 'INFO',
     oraQueryParams: null,
     numberOfRowsRetrieved: null,
-    pointsWrittenToInflux: [],
-    processing_time: 0,
+    batchedWrittenToInflux: 0,
+    processingTime: 0,
   }
   try {
     const influx = createInfluxClient(conf)
@@ -75,34 +75,39 @@ const oraToInfluxQueue = async.queue(function (conf, funcCallback) {
        */
       async function () {
         if (conf.snapshotMode) {
-          res.oraQueryParams = {}
+          functionResult.oraQueryParams = {}
           conf.oraQueryParams = {}
         } else {
           oraQueryParams.UPDATED_TIME = oraQueryParams.UPDATED_TIME.toISOString().replace('Z', '-00:00')
-          res.oraQueryParams = oraQueryParams
+          functionResult.oraQueryParams = oraQueryParams
           conf.oraQueryParams = oraQueryParams
         }
-        await oraStream(conf, function (points) {
+        const result = await oraStream(conf, function (points) {
           return influx.writePoints(points)
         })
+        functionResult.numberOfRowsRetrieved = result.totalRows
+        functionResult.processingTime = Date.now() - startProcessTime
+        functionResult.batchedWrittenToInflux = result.numberOfBatches
+        functionResult.startTime = result.startTime
+        functionResult.endTime = result.endTime
       },
     ], function (err) {
       if (err) {
         logger.error(err.message, {
-          operation: 'ora-to-influx',
-          event: conf.measurementName,
+          event: `BATCHJOB_FAILED`,
+          operation: `ora-to-influx/${conf.measurementName}`,
           processing_time: Date.now() - startProcessTime,
         })
       }
-      funcCallback(res)
+      funcCallback(functionResult)
     })
   } catch (err) {
     logger.error(err.message, {
-      operation: 'ora-to-influx',
-      event: conf.measurementName,
+      event: `BATCHJOB_FAILED`,
+      operation: `ora-to-influx/${conf.measurementName}`,
       processing_time: Date.now() - startProcessTime,
     })
-    funcCallback(res)
+    funcCallback(functionResult)
   }
 })
 
