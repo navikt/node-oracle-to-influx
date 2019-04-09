@@ -55,7 +55,6 @@ const oraStream = async function (config, flushFunc) {
      * Some statistics
      */
     totalRows++
-
   })
 
   return new Promise(function (resolve, reject) {
@@ -65,11 +64,19 @@ const oraStream = async function (config, flushFunc) {
       }
       await connection.close()
       const processingTime = (Date.now() - startProcessTime) / 1000
-      logger.info(`Measurement ${config.measurementName} fetched, and batched in ${writePromises.length} batches.`, {
+      let message
+      if (totalRows === 0) {
+        message = `Measurement ${config.measurementName} did not return any new rows.`
+      } else {
+        message = `Measurement ${config.measurementName}(${startTime.toISOString()} - ${endTime.toISOString()}) fetched,` +
+          ` and batched in ${writePromises.length} batches`
+      }
+      logger.info(message, {
+        event: '',
         operation: 'oracle/stream',
         processing_time: processingTime,
+        total_rows: totalRows,
       })
-
       Promise.all(writePromises).then(res =>
         resolve({
           totalRows,

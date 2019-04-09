@@ -1,6 +1,6 @@
 {
   "name": "@navikt/oracle-to-influx",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "main": "src/index.js",
   "repository": "https://github.com/navikt/node-oracle-to-influx.git",
   "author": "NAV",
@@ -15,7 +15,7 @@
     "oracledb": "*"
   },
   "scripts": {
-    "start": "nodemon ./server.js",
+    "start": "nodemon ./tests/server.js",
     "up": "docker-compose up -d --remove-orphans --build",
     "down": "docker-compose down",
     "push": "git add . && git commit -m tmp && git push"
@@ -29,5 +29,8 @@
     "eslint-plugin-standard": "^4.0.0",
     "nodemon": "^1.18.10",
     "wait-on": "^3.2.0"
+  },
+  "resolutions": {
+    "**/event-stream": "^4.0.1"
   }
 }

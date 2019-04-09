@@ -15,7 +15,7 @@ function doRelease (connection) {
 
 module.exports = function (conf, functionCallback) {
   oracledb.extendedMetaData = true
-  oracledb.maxRows = 20000
+  oracledb.maxRows = conf.maxRows || 20000
   const oraOptions = conf.oraOptions
   const sql = conf.queryString
   const params = conf.oraQueryParams || {}
