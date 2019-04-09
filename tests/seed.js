@@ -43,7 +43,7 @@ oracledb.getConnection(config.oraOptions, async function (err, connection) {
           WHEN 4 THEN 'Premium'
         END AS DUMMY
       from dual
-      connect by rownum <= 10000`
+      connect by rownum <= 11337`
     const insertResult = await connection.execute(seedQuery)
     await console.log(`Created ${insertResult.rowsAffected} records.`)
   }
