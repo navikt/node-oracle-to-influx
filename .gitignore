@@ -59,3 +59,4 @@ typings/
 .idea
 # next.js build output
 .next
+*.lock
