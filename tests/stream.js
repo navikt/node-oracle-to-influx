@@ -1,4 +1,4 @@
-const testStream = require('../src/oracle/stream')
+const oracleStream = require('../src/oracle/stream')
 const findConfig = require('./config').find
 const createInfluxClient = require('../src/influx/createClient')
 
@@ -16,7 +16,7 @@ async function testStreaming (conf) {
   await influx.dropSeries({
     measurement: m => m.name(conf.measurementName),
   })
-  await testStream(conf, (points) => {
+  await oracleStream(conf, (points) => {
     console.log(`Flushed ${points.length} points to influx`)
     return influx.writePoints(points)
   })

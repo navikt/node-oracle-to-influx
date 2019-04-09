@@ -4,6 +4,11 @@ const createDate = require('../utils/createDate')
 const browseLinks = require('../utils/browseLinks')
 const baseurl = require('../utils/baseurl')
 
+/**
+ * Henter bare data de siste 7 dager og max 1000 rader.
+ * @param req
+ * @param res
+ */
 module.exports = function (req, res) {
   const conf = findConfig(req.params.measurementName, req.params.environment)
   if (conf) {
@@ -20,6 +25,7 @@ module.exports = function (req, res) {
       conf.queryString = conf.queryString + ' ORDER BY TIME '
     }
     conf.queryString = `${conf.queryString} DESC`
+    conf.maxRows = 1000
     oraConnect(conf,
       function (result) {
         res.json({
