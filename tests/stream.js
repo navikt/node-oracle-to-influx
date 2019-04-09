@@ -4,7 +4,7 @@ const createInfluxClient = require('../src/influx/createClient')
 
 async function testStreaming (conf) {
   conf.oraQueryParams = { UPDATED_TIME: new Date('2018-01-01') }
-  conf.oraQueryParams.UPDATED_TIME = conf.params.UPDATED_TIME.toISOString().replace('Z', '-00:00')
+  conf.oraQueryParams.UPDATED_TIME = conf.oraQueryParams.UPDATED_TIME.toISOString().replace('Z', '-00:00')
   const influx = createInfluxClient(conf)
   const databaseNames = await influx.getDatabaseNames()
   if (!databaseNames.includes(conf.influx.database)) {
@@ -17,7 +17,7 @@ async function testStreaming (conf) {
     measurement: m => m.name(conf.measurementName),
   })
   await testStream(conf, (points) => {
-    console.log(`Flushed ${points.length}to influx`)
+    console.log(`Flushed ${points.length} points to influx`)
     return influx.writePoints(points)
   })
 }
