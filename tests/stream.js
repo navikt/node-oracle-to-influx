@@ -1,23 +1,25 @@
 const oracleStream = require('../src/oracle/stream')
-const findConfig = require('./config').find
+const findConfig = require('./utils/config').find
 const createInfluxClient = require('../src/influx/createClient')
+const ensureDatabase = require('../src/influx/ensureDatabase')
+const logger = require('./logger')
 
 async function testStreaming (conf) {
   conf.oraQueryParams = { UPDATED_TIME: new Date('2018-01-01') }
-  conf.oraQueryParams.UPDATED_TIME = conf.oraQueryParams.UPDATED_TIME.toISOString().replace('Z', '-00:00')
-  const influx = createInfluxClient(conf)
-  const databaseNames = await influx.getDatabaseNames()
-  if (!databaseNames.includes(conf.influx.database)) {
-    await influx.createDatabase(conf.influx.database)
-  }
+  let influx = createInfluxClient(conf)
+
   /**
    * Bare slette gamle data fra influx først.
    */
+  await influx.dropDatabase(conf.influx.database)
+
+  await ensureDatabase(conf)
+
   await influx.dropSeries({
     measurement: m => m.name(conf.measurementName),
   })
   await oracleStream(conf, (points) => {
-    console.log(`Flushed ${points.length} points to influx`)
+    logger(`Flushed ${points.length} points to influx`)
     return influx.writePoints(points)
   })
 }

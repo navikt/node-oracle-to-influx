@@ -13,7 +13,7 @@ class Cronenberg {
       cronTime: cronTime,
       onTick: onTick,
       start: false,
-      runOnInit: false,
+      runOnInit: true,
     }))
   }
 

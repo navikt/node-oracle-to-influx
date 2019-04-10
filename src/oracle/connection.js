@@ -4,21 +4,25 @@ const cache = new NodeCache({ stdTTL: 60 })
 const logger = require('../utils/Logger')
 const makeCacheKey = require('../utils/makeCacheKey')
 const async = require('async')
+const prepParams = require('./prepParams')
 
 function doRelease (connection) {
   connection.close(function (err) {
     if (err) {
-      logger.error(`Error on doRelease: ${err.message}`)
+      logger.error(`Error on doRelease: ${err.message}`, {
+        event: 'ORACLE_ERROR',
+        operation: 'oracle/connection/close',
+      })
     }
   })
 }
 
 module.exports = function (conf, functionCallback) {
   oracledb.extendedMetaData = true
-  oracledb.maxRows = conf.maxRows || 20000
+  oracledb.maxRows = conf.maxRows || 10000
   const oraOptions = conf.oraOptions
   const sql = conf.queryString
-  const params = conf.oraQueryParams || {}
+  const params = prepParams(conf.oraQueryParams)
   const cacheKey = makeCacheKey(oraOptions, sql, params)
   const startTime = new Date()
   const startMemory = process.memoryUsage().heapUsed
@@ -43,7 +47,11 @@ module.exports = function (conf, functionCallback) {
       oracledb.getConnection(oraOptions, function (err, c) {
         connection = c
         if (err) {
-          logger.error(`Error connecting to ${oraOptions.connectString} : ${err.message}`)
+          logger.error(`Error connecting to ${oraOptions.connectString} : ${err.message}`, {
+            log_name: conf.measurementName,
+            event: 'ORACLE_ERROR',
+            operation: 'oracle/connection/get-connection',
+          })
           prevResult.error = err.message
         }
         asyncCb(err, prevResult)
@@ -63,7 +71,11 @@ module.exports = function (conf, functionCallback) {
     function (prevResult, asyncCb) {
       connection.execute(sql, params, function (err, result) {
         if (err) {
-          logger.error(`Error executing query on ${oraOptions.connectString} : ${err.message}`)
+          logger.error(`Error executing query on ${oraOptions.connectString} : ${err.message}`, {
+            log_name: conf.measurementName,
+            event: 'ORACLE_ERROR',
+            operation: 'oracle/connection/execute',
+          })
           result = prevResult
           result.error = err.message
         } else {

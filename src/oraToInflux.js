@@ -1,9 +1,9 @@
 const async = require('async')
 const influxGetMaxTime = require('./influx/getMaxTime')
-const ensureDbExists = require('./influx/ensureDbExists')
+const ensureDatabase = require('./influx/ensureDatabase')
+const dropMeasurement = require('./influx/dropMeasurement')
 const oraStream = require('./oracle/stream')
 const createInfluxClient = require('./influx/createClient')
-const constants = require('./constants')
 const logger = require('./utils/Logger')
 const createDate = require('./utils/createDate')
 
@@ -27,30 +27,14 @@ const oraToInfluxQueue = async.queue(function (conf, funcCallback) {
     const influx = createInfluxClient(conf)
 
     async.series([
-      function (asynCallback) {
-        ensureDbExists(conf, (err) => asynCallback(err))
+      async function () {
+        await ensureDatabase(conf)
       },
       /**
        * Fjerner serier som er utdatert.
        */
-      function (asynCallback) {
-        influx.dropSeries({
-          measurement: m => m.name(conf.measurementName),
-          where: e => {
-            if (conf.snapshotMode) {
-              return e
-                .tag(constants.ENVIRONMENT).equals.value(conf.environment)
-            } else {
-              return e
-                .tag(constants.ENVIRONMENT).equals.value(conf.environment).and
-                .tag(constants.QUERY_CHECKSUM_FIELD_NAME).notEqual.value(conf.queryChecksum)
-            }
-          },
-        }).then(result => {
-          asynCallback(null, result)
-        }).catch(err => {
-          asynCallback(err)
-        })
+      async function () {
+        await dropMeasurement(conf)
       },
       /**
        * Henter først max tiden
@@ -78,24 +62,26 @@ const oraToInfluxQueue = async.queue(function (conf, funcCallback) {
           functionResult.oraQueryParams = {}
           conf.oraQueryParams = {}
         } else {
-          oraQueryParams.UPDATED_TIME = oraQueryParams.UPDATED_TIME.toISOString().replace('Z', '-00:00')
           functionResult.oraQueryParams = oraQueryParams
           conf.oraQueryParams = oraQueryParams
         }
         const result = await oraStream(conf, function (points) {
           return influx.writePoints(points)
         })
-        functionResult.numberOfRowsRetrieved = result.totalRows
         functionResult.processingTime = Date.now() - startProcessTime
         functionResult.batchedWrittenToInflux = result.numberOfBatches
-        functionResult.startTime = result.startTime
-        functionResult.endTime = result.endTime
+        if (result) {
+          functionResult.numberOfRowsRetrieved = result.totalRows
+          functionResult.startTime = result.startTime
+          functionResult.endTime = result.endTime
+        }
       },
     ], function (err) {
       if (err) {
         logger.error(err.message, {
+          log_name: conf.measurementName,
           event: `BATCHJOB_FAILED`,
-          operation: `ora-to-influx/${conf.measurementName}`,
+          operation: `ora-to-influx`,
           processing_time: Date.now() - startProcessTime,
         })
       }
@@ -103,8 +89,9 @@ const oraToInfluxQueue = async.queue(function (conf, funcCallback) {
     })
   } catch (err) {
     logger.error(err.message, {
+      log_name: conf.measurementName,
       event: `BATCHJOB_FAILED`,
-      operation: `ora-to-influx/${conf.measurementName}`,
+      operation: `ora-to-influx`,
       processing_time: Date.now() - startProcessTime,
     })
     funcCallback(functionResult)
