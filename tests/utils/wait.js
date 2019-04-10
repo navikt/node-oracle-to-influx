@@ -1,6 +1,6 @@
 const oracledb = require('oracledb')
 const findConfig = require('./config').find
-
+const logger = require('./logger')
 oracledb.autoCommit = true
 
 const config = findConfig('someMeasurement', 'prod')
@@ -13,12 +13,12 @@ async function waitOnOracle (oraOptions, attempt, message) {
   try {
     const connection = await oracledb.getConnection(oraOptions)
     const result = await connection.execute(`SELECT sys_context('USERENV','CURRENT_SCHEMA') as db_user, dbtimezone, SESSIONTIMEZONE  from dual`)
-    console.info('Success, connected to oracledatabase ', result.rows[0])
+    logger(`Success, connected to oracledatabase ${result.rows[0]}`)
   } catch (e) {
     // 2 minutter bør holde for å komme seg på.
     if (attempt < 120) {
       if (message !== e.message) {
-        console.log('Trying to connect: ', e.message)
+        logger(`Trying to connect: ${e.message}`)
       }
       attempt++
       await sleep(1000)

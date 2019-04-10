@@ -20,6 +20,10 @@ module.exports = function (config) {
       return null
     }
   }).catch(err => {
-    logger.error(`influx.getMaxTime() failed with error, ${err.message}`)
+    logger.error(`influx.getMaxTime() failed with error, ${err.message}`, {
+      log_name: config.measurementName,
+      operation: 'influx/get-max-time',
+      event: 'INFLUXDB_ERROR',
+    })
   })
 }

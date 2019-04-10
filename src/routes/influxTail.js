@@ -6,14 +6,21 @@ const baseurl = require('../utils/baseurl')
 
 module.exports = function (req, res) {
   const conf = findConf(req.params.measurementName, req.params.environment)
-  if(conf){
+  if (conf) {
     influxTail(conf).then(function (result) {
       res.json({
         links: browseLinks(baseurl(req), conf),
         data: result,
       })
     }).catch(err => {
-      logger.error(`influxTail failed with error, ${err.message}`)
+      logger.error(`influxTail failed with error, ${err.message}`, {
+        event: 'INFLUXDB_ERROR',
+        operation: 'influx/tail',
+        log_name: conf.measurementName,
+      })
+      res.status(500).json({
+        status: ''
+      })
     })
   } else {
     res.status(404).json({

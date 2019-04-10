@@ -18,7 +18,6 @@ module.exports = function (req, res) {
       UPDATED_TIME.setHours(0)
       UPDATED_TIME.setMilliseconds(0)
       UPDATED_TIME.setSeconds(0)
-      UPDATED_TIME = UPDATED_TIME.toISOString().replace('Z', '-00:00')
       conf.oraQueryParams.UPDATED_TIME = UPDATED_TIME
     }
     if (!conf.queryString.match(/order by/i)) {

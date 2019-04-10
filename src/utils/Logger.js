@@ -1,3 +1,4 @@
+
 class Logger {
   constructor () {
     // no lint
@@ -15,7 +16,11 @@ class Logger {
       logEntry.level = 'DEBUG'
     }
     const logwith = logEntry.level.toLowerCase()
-    console[logwith](JSON.stringify(logEntry))
+    if (process.env.NODE_ENV === 'test') {
+      console[logwith](`   👍 ${logEntry.message}`)
+    } else {
+      console[logwith](JSON.stringify(logEntry))
+    }
   }
 
   debug (message, params) {

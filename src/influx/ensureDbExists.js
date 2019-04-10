@@ -12,7 +12,7 @@ module.exports = function (queryConfig, funcToExecuteIfExists) {
     function (asyncCb) {
       cache.get(cacheKey, function (err, cachedValue) {
         if (cachedValue !== undefined) {
-          err = true // breaking itteration.
+          err = true // breaking iteration.
         }
         asyncCb(err)
       })
@@ -33,6 +33,10 @@ module.exports = function (queryConfig, funcToExecuteIfExists) {
     function (asyncCb) {
       influx.getDatabaseNames().then(names => {
         if (!names.includes(queryConfig.influx.database)) {
+          logger.info(`Creating influx database ${queryConfig.influx.database}.`, {
+            event: 'DATABASE_CREATED',
+            operation: 'influx/ensure-db-exists',
+          })
           return influx.createDatabase(queryConfig.influx.database)
         } else {
           return Promise.resolve()

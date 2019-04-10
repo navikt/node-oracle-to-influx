@@ -8,27 +8,29 @@
   "dependencies": {
     "async": "^2.6.2",
     "cron": "^1.7.0",
-    "dotenv": "*",
     "express": "^4.16.3",
     "influx": "^5.0.7",
     "node-cache": "^4.2.0",
     "oracledb": "*"
   },
   "scripts": {
-    "start": "nodemon ./tests/server.js",
+    "test": "yarn wait;NODE_ENV=test mocha tests/*.spec.js",
+    "start": "nodemon ./tests/utils/server.js",
     "up": "docker-compose up -d --remove-orphans --build",
     "down": "docker-compose down",
-    "push": "git add . && git commit -m tmp && git push"
+    "push": "git add . && git commit -m tmp && git push",
+    "wait": "node ./tests/utils/wait.js "
   },
   "devDependencies": {
+    "chalk": "^2.4.2",
     "eslint": "^5.0.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
-    "nodemon": "^1.18.10",
-    "wait-on": "^3.2.0"
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
   },
   "resolutions": {
     "**/event-stream": "^4.0.1"
