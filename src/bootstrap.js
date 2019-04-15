@@ -24,12 +24,7 @@ module.exports = function bootstrap (rawConfig) {
       stack_trace: err.stack,
     })
   })
-  process.on('unhandledRejection', function (err, promise) {
-    logger.error(`Unhandled Rejection: ${err.message}`, {
-      event: 'UNHANDLED_REJECTION',
-      stack_trace: err.stack,
-    })
-  })
+
   process.env.ORA_SDTZ = 'UTC'
   process.env.TZ = 'UTC'
   app.set('json spaces', 2)
@@ -48,6 +43,7 @@ module.exports = function bootstrap (rawConfig) {
    *  Adding Cronjobs
    */
   const configs = setConfig(rawConfig)
+
   configs.forEach(function (queryConfig) {
     logger.info(`Query ${queryConfig.measurementName} scheduled (${queryConfig.schedule}).`, {
       log_name: queryConfig.measurementName,
@@ -62,15 +58,14 @@ module.exports = function bootstrap (rawConfig) {
       })
     })
   })
-  app.get('/ora-to-influx-queue', function (req, res) {
-    res.json({
-      length: oraToInflux.length(),
-      concurrency: oraToInflux.concurrency,
-      payload: oraToInflux.payload,
-      buffer: oraToInflux.buffer,
-      started: oraToInflux.started,
-      paused: oraToInflux.paused,
+  process.on('unhandledRejection', function (err, promise) {
+    logger.error(`Unhandled Rejection: ${err.message}`, {
+      event: 'UNHANDLED_REJECTION',
+      stack_trace: err.stack,
     })
+  })
+  app.get('/ora-to-influx-queue', function (req, res) {
+    res.json(oraToInflux.stats())
   })
   cron.start()
   return app

@@ -1,6 +1,6 @@
 {
   "name": "@navikt/oracle-to-influx",
-  "version": "0.8.14",
+  "version": "0.8.15",
   "main": "src/index.js",
   "repository": "https://github.com/navikt/node-oracle-to-influx.git",
   "author": "NAV",
@@ -11,7 +11,8 @@
     "express": "^4.16.3",
     "influx": "^5.0.7",
     "node-cache": "^4.2.0",
-    "oracledb": "*"
+    "oracledb": "*",
+    "p-queue": "^5.0.0"
   },
   "scripts": {
     "test": "yarn wait;NODE_ENV=test mocha tests/*.spec.js",

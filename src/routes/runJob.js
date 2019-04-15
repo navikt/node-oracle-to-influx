@@ -3,14 +3,13 @@ const oraToInflux = require('../oraToInflux')
 const browseLinks = require('../utils/browseLinks')
 const baseurl = require('../utils/baseurl')
 
-module.exports = function (req, res) {
+module.exports = async function (req, res) {
   const conf = getConfig(req.params.measurementName, req.params.environment)
   if (conf) {
-    oraToInflux.unshift(conf, function (result) {
-      res.json({
-        links: browseLinks(baseurl(req), conf),
-        result: result,
-      })
+    const result = await oraToInflux.unshift(conf)
+    res.json({
+      links: browseLinks(baseurl(req), conf),
+      result: result,
     })
   } else {
     res.status(404).json({

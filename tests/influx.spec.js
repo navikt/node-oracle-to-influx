@@ -2,6 +2,8 @@ const assert = require('assert')
 const createInfluxClient = require('../src/influx/createClient')
 const ensureDatabase = require('../src/influx/ensureDatabase')
 const findConfig = require('./utils/config').find
+const express = require('express')
+const logger = require('./utils/logger')
 
 describe('Influx functions', function () {
   it('ensure that database get created ', async () => {
@@ -12,8 +14,14 @@ describe('Influx functions', function () {
     const names = await influx.getDatabaseNames()
     assert.strictEqual(names.includes(conf.influx.database), true)
   })
-
-  it('dsa', async () => {
-    // console.log(process.env)
+  it('should handle error server', async () => {
+    const conf = findConfig('someMeasurement', 'prod')
+    const influx = createInfluxClient(conf)
+    try {
+      await ensureDatabase(influx, 'http://localhost:48089')
+      await ensureDatabase(influx, conf.influx.database)
+    } catch (e) {
+      assert.strictEqual(e.message, 'Error from InfluxDB: invalid name')
+    }
   })
 })
