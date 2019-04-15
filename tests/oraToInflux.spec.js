@@ -11,7 +11,7 @@ describe('Oracle To Influx', function () {
     const conf = findConfig('someMeasurement', 'prod')
     const influx = createInfluxClient(conf)
     await influx.dropDatabase(conf.influx.database)
-    await oraToInflux.push(conf, res => {
+    await oraToInflux.push(conf, (err, res) => {
       assert.strictEqual(res.batchedWrittenToInflux, 20)
     })
   }).timeout(60000)

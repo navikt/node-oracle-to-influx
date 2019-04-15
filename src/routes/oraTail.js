@@ -21,7 +21,7 @@ module.exports = function (req, res) {
       conf.oraQueryParams.UPDATED_TIME = UPDATED_TIME
     }
     if (!conf.queryString.match(/order by/i)) {
-      conf.queryString = conf.queryString + ' ORDER BY TIME '
+      conf.queryString = `${conf.queryString} ORDER BY TIME `
     }
     conf.queryString = `${conf.queryString} DESC`
     conf.maxRows = 1000

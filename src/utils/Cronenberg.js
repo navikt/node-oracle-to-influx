@@ -6,12 +6,14 @@ class Cronenberg {
   }
 
   add (cronTime, funcToExecuteOnTick) {
-    this.jobs.push(new cron.CronJob({
+    const job = new cron.CronJob({
       cronTime: cronTime,
       onTick: funcToExecuteOnTick,
       start: false,
       runOnInit: true,
-    }))
+    })
+    this.jobs.push(job)
+    return job
   }
 
   start () {

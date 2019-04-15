@@ -2,7 +2,7 @@ const oracleStream = require('../src/oracle/stream')
 const findConfig = require('./utils/config').find
 const createInfluxClient = require('../src/influx/createClient')
 const ensureDatabase = require('../src/influx/ensureDatabase')
-const logger = require('./logger')
+const logger = require('./utils/logger')
 
 async function testStreaming (conf) {
   conf.oraQueryParams = { UPDATED_TIME: new Date('2018-01-01') }
@@ -13,7 +13,7 @@ async function testStreaming (conf) {
    */
   await influx.dropDatabase(conf.influx.database)
 
-  await ensureDatabase(conf)
+  await ensureDatabase(influx, conf.influx.database)
 
   await influx.dropSeries({
     measurement: m => m.name(conf.measurementName),

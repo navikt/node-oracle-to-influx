@@ -1,8 +1,7 @@
 const createInfluxClient = require('./createClient')
 const constants = require('../constants')
 
-module.exports = async function (conf) {
-  const influx = createInfluxClient(conf)
+module.exports = async function (influx, conf) {
   await influx.dropSeries({
     measurement: m => m.name(conf.measurementName),
     where: e => {

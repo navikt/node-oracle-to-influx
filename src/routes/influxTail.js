@@ -17,9 +17,10 @@ module.exports = function (req, res) {
         event: 'INFLUXDB_ERROR',
         operation: 'influx/tail',
         log_name: conf.measurementName,
+        stack_trace: err.stack,
       })
       res.status(500).json({
-        status: ''
+        status: '',
       })
     })
   } else {

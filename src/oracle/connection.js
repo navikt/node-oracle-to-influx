@@ -12,6 +12,7 @@ function doRelease (connection) {
       logger.error(`Error on doRelease: ${err.message}`, {
         event: 'ORACLE_ERROR',
         operation: 'oracle/connection/close',
+        stack_trace: err.stack,
       })
     }
   })
@@ -51,6 +52,7 @@ module.exports = function (conf, functionCallback) {
             log_name: conf.measurementName,
             event: 'ORACLE_ERROR',
             operation: 'oracle/connection/get-connection',
+            stack_trace: err.stack,
           })
           prevResult.error = err.message
         }
@@ -75,6 +77,7 @@ module.exports = function (conf, functionCallback) {
             log_name: conf.measurementName,
             event: 'ORACLE_ERROR',
             operation: 'oracle/connection/execute',
+            stack_trace: err.stack,
           })
           result = prevResult
           result.error = err.message
