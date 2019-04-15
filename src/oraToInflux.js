@@ -5,6 +5,10 @@ const dropMeasurement = require('./influx/dropMeasurement')
 const oraStream = require('./oracle/stream')
 const createInfluxClient = require('./influx/createClient')
 const logger = require('./utils/Logger')
+const makeCacheKey = require('./utils/makeCacheKey')
+const PQueue = require('p-queue')
+
+const queue = new PQueue({ concurrency: 1 })
 
 const oraToInflux = async function (conf) {
   const oraQueryParams = conf.oraQueryParams || {}
@@ -27,10 +31,7 @@ const oraToInflux = async function (conf) {
       oraQueryParams.UPDATED_TIME = await influxGetMaxTime(influx, conf) // Determine the start time for pulling
       conf.oraQueryParams = oraQueryParams
     }
-
-    const result = await oraStream(conf, function (points) {
-      return influx.writePoints(points)
-    }) // Performing the query against Oracle.
+    const result = await oraStream(conf, points => influx.writePoints(points)) // Performing the query against Oracle.
     if (result) {
       functionResult.batchedWrittenToInflux = result.numberOfBatches
       functionResult.numberOfRowsRetrieved = result.totalRows
@@ -53,8 +54,30 @@ const oraToInflux = async function (conf) {
   return functionResult
 }
 
-const oraToInfluxQueue = async.queue(function (task, callback) {
-  oraToInflux(task).then(res => callback(null, res))
-})
+const inQueue = {}
 
-module.exports = oraToInfluxQueue
+module.exports = {
+  unshift: async function (task) {
+    const result = await queue.add(() => oraToInflux(task))
+    return result
+  },
+  push: async function (task) {
+    const signature = makeCacheKey(task.measurementName, task.environment, task.queryChecksum)
+    let result = {
+      success: true,
+    }
+    if (!inQueue[signature]) {
+      inQueue[signature] = true
+      result = await queue.add(() => oraToInflux(task))
+      inQueue[signature] = false
+    }
+    return result
+  },
+  stats: function () {
+    return {
+      size: queue.size,
+      pending: queue.pending,
+      isPaused: queue.isPaused,
+    }
+  },
+}

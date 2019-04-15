@@ -41,7 +41,7 @@ module.exports = async function seedDatabase (numberOfRows, testTable) {
           WHEN 4 THEN 'Premium'
         END AS DUMMY
       from dual
-      connect by rownum <=  ${numberOfRows}`
+      connect by rownum <= ${numberOfRows}`
   const insertResult = await connection.execute(seedQuery)
   logger(`Created ${insertResult.rowsAffected} records.`)
 }

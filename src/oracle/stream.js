@@ -3,6 +3,7 @@ const constants = require('../constants')
 const logger = require('../utils/Logger')
 const prepParams = require('./prepParams')
 const operation = 'oracle/stream'
+const PQueue = require('p-queue')
 
 const oraStream = async function (config, flushFunc) {
   const startProcessTime = Date.now()
@@ -10,11 +11,12 @@ const oraStream = async function (config, flushFunc) {
   const ignoredFields = [constants.QUERY_CHECKSUM_FIELD_NAME, constants.ENVIRONMENT]
   const points = []
   const metadata = []
-  const writePromises = []
+  const queue = new PQueue({ concurrency: 10 })
   let startTime = null
   let endTime = null
   let totalRows = 0
-
+  let numberOfBatches = 0
+  const batchSize = 5000
   try {
     connection = await oracledb.getConnection(config.oraOptions)
     await connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${config.schema} TIME_ZONE = DBTIMEZONE`)
@@ -34,7 +36,7 @@ const oraStream = async function (config, flushFunc) {
       })
     })
 
-    stream.on('data', function (data) {
+    stream.on('data', async function (data) {
       // data point that should be written to influxdb
       const point = {
         timestamp: data[metadata.indexOf('TIME')],
@@ -54,8 +56,9 @@ const oraStream = async function (config, flushFunc) {
         point.fields[fieldName] = data[metadata.indexOf(fieldName)]
       })
       points.push(point)
-      if (points.length === 5000) {
-        writePromises.push(flushFunc(points.splice(0, points.length)))
+      if (points.length === batchSize) {
+        await queue.add(async () => flushFunc(points.splice(0, points.length)))
+        numberOfBatches++
       }
       /**
        * Some statistics
@@ -75,18 +78,18 @@ const oraStream = async function (config, flushFunc) {
   return new Promise(function (resolve, reject) {
     stream.on('end', async function () {
       if (points.length > 0) {
-        writePromises.push(flushFunc(points))
+        await queue.add(async () => flushFunc(points))
+        numberOfBatches++
       }
       await connection.close()
       const processingTime = (Date.now() - startProcessTime) / 1000
       let message
-
-      Promise.all(writePromises).then(res => {
+      queue.onIdle().then(() => {
         if (totalRows === 0) {
           message = `Measurement ${config.measurementName} did not return any new rows.`
         } else {
           message = `Measurement ${config.measurementName}(${startTime.toISOString()} - ${endTime.toISOString()}) fetched,` +
-            ` and batched in ${writePromises.length} batches`
+            ` and batched in ${numberOfBatches} batches`
         }
         logger.info(message, {
           log_name: config.measurementName,
@@ -98,7 +101,7 @@ const oraStream = async function (config, flushFunc) {
         resolve({
           totalRows,
           processingTime,
-          numberOfBatches: writePromises.length,
+          numberOfBatches,
           startTime,
           endTime,
         })
@@ -111,7 +114,7 @@ const oraStream = async function (config, flushFunc) {
         operation,
         stack_trace: err.stack,
       })
-      reject(error)
+      reject(err)
     })
   })
 }

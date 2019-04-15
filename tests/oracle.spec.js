@@ -9,7 +9,7 @@ describe('Oracle functions', function () {
     conf.oraQueryParams = { UPDATED_TIME: new Date('2018-01-01') }
     const testTable = 'TEST_TABLE_NAME'
     await seedDatabase(6000, testTable)
-    const result = await oracleStream(conf, points => {
+    const result = await oracleStream(conf, async points => {
       assert.strictEqual(true, Array.isArray(points))
       assert.strictEqual(true, points.length > 0)
     })
