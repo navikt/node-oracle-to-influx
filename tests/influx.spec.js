@@ -8,13 +8,12 @@ describe('Influx functions', function () {
     const conf = findConfig('someMeasurement', 'prod')
     const influx = createInfluxClient(conf)
     await influx.dropDatabase(conf.influx.database)
-    await ensureDatabase(conf)
+    await ensureDatabase(influx, conf.influx.database)
     const names = await influx.getDatabaseNames()
     assert.strictEqual(names.includes(conf.influx.database), true)
   })
 
   it('dsa', async () => {
-    //console.log(process.env)
+    // console.log(process.env)
   })
 })
-

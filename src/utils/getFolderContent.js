@@ -16,7 +16,7 @@ module.exports = function (dirName) {
           atime: fileStat.atime,
           mtime: fileStat.mtime,
           ctime: fileStat.ctime,
-          content: fileContent
+          content: fileContent,
         })
       }
     })

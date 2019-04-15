@@ -1,8 +1,9 @@
 const logger = require('./utils/Logger')
-const cron = require('./cronenberg')
+const cron = require('./utils/Cronenberg')
 const express = require('express')
 const oraToInflux = require('./oraToInflux')
 const setConfig = require('./utils/config').set
+
 /**
  * Will start the cronjob and return the utility server.
  *
@@ -14,16 +15,19 @@ module.exports = function bootstrap (rawConfig) {
   process.on('error', function (err) {
     logger.error(`Error hello: ${err.message}`, {
       event: 'UNCAUGHT_EXCEPTION',
+      stack_trace: err.stack,
     })
   })
   process.on('uncaughtException', function (err) {
     logger.error(`Uncaught Exception: ${err.message}`, {
       event: 'UNCAUGHT_EXCEPTION',
+      stack_trace: err.stack,
     })
   })
-  process.on('unhandledRejection', function (reason, promise) {
-    logger.error(`Unhandled Rejection: ${reason.message}`, {
+  process.on('unhandledRejection', function (err, promise) {
+    logger.error(`Unhandled Rejection: ${err.message}`, {
       event: 'UNHANDLED_REJECTION',
+      stack_trace: err.stack,
     })
   })
   process.env.ORA_SDTZ = 'UTC'
@@ -51,14 +55,23 @@ module.exports = function bootstrap (rawConfig) {
       operation: `bootstrap/schedule`,
     })
     cron.add(queryConfig.schedule, function () {
-      oraToInflux.push(queryConfig, function (err) {
-        if (err) {
-          // console.error(err.message)
-        }
+      oraToInflux.push(queryConfig, function (err, result) {
+        // if (!result.success) {
+        // pause all jobs on that particular query.
+        // }
       })
     })
   })
-
+  app.get('/ora-to-influx-queue', function (req, res) {
+    res.json({
+      length: oraToInflux.length(),
+      concurrency: oraToInflux.concurrency,
+      payload: oraToInflux.payload,
+      buffer: oraToInflux.buffer,
+      started: oraToInflux.started,
+      paused: oraToInflux.paused,
+    })
+  })
   cron.start()
   return app
 }

@@ -1,4 +1,3 @@
-const createInfluxClient = require('./createClient')
 const validateMesurementName = require('./validateMesurementName')
 const logger = require('../utils/Logger')
 const constants = require('../constants')
@@ -6,11 +5,11 @@ const createDate = require('../utils/createDate')
 
 /**
  * Determines startTime to start pulling data.
+ * @param influx
  * @param config
  * @returns {Promise<never>|Promise<IResults<any> | never>}
  */
-module.exports = function (config) {
-  const influx = createInfluxClient(config)
+module.exports = function (influx, config) {
   if (!validateMesurementName(config.measurementName)) {
     return Promise.reject(new Error(`Det finnes ingen measurement med navn ${config.measurementName} i configen.`))
   }
@@ -34,6 +33,7 @@ module.exports = function (config) {
       log_name: config.measurementName,
       operation: 'influx/get-max-time',
       event: 'INFLUXDB_ERROR',
+      stack_trace: err.stack,
     })
   })
 }

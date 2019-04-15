@@ -7,6 +7,6 @@ module.exports = function (req, res) {
     version: pkg.version,
     dbInfo: `${baseURL}db-info`,
     configs: `${baseURL}browse`,
-    itsAlive: `${baseURL}its-alive`
+    itsAlive: `${baseURL}its-alive`,
   })
 }

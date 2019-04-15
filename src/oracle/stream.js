@@ -62,11 +62,12 @@ const oraStream = async function (config, flushFunc) {
        */
       totalRows++
     })
-  } catch (e) {
-    logger.error(e.message, {
+  } catch (err) {
+    logger.error(err.message, {
       log_name: config.measurementName,
       event: 'ORACLE_ERROR',
       operation,
+      stack_trace: err.stack,
     })
     return
   }
@@ -103,11 +104,12 @@ const oraStream = async function (config, flushFunc) {
         })
       })
     })
-    stream.on('error', function (error) {
-      logger.error(error.message, {
+    stream.on('error', function (err) {
+      logger.error(err.message, {
         log_name: config.measurementName,
         event: 'BATCHJOB_FAILED',
         operation,
+        stack_trace: err.stack,
       })
       reject(error)
     })
