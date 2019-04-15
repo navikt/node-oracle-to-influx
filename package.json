@@ -1,6 +1,6 @@
 {
   "name": "@navikt/oracle-to-influx",
-  "version": "0.8.12",
+  "version": "0.8.13",
   "main": "src/index.js",
   "repository": "https://github.com/navikt/node-oracle-to-influx.git",
   "author": "NAV",

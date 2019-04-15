@@ -11,4 +11,6 @@ rawConfigs.forEach(async conf => {
   })
   logger(`Cleaned up ${conf.measurementName}`)
 })
-bootstrap(rawConfigs).listen(port)
+bootstrap(rawConfigs).listen(port, function (res) {
+  logger(`server started on port: ${port}`)
+})

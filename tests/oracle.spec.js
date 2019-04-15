@@ -14,5 +14,5 @@ describe('Oracle functions', function () {
       assert.strictEqual(true, points.length > 0)
     })
     assert.strictEqual(result.numberOfBatches, 2)
-  })
+  }).timeout(10000)
 })

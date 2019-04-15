@@ -1,6 +1,7 @@
 module.exports = [
   {
     measurementName: 'someMeasurement',
+    schedule: '* * * * *',
     queryString: `SELECT 
     CREATED as TIME,
        DUMMY,
@@ -23,7 +24,7 @@ GROUP BY CREATED, DUMMY
       'DUMMY',
     ],
     oraOptions: {
-      connectString: 'localhost:1521',
+      connectString: 'localhost:1521/XE',
       user: 'vl_dba',
       password: 'vl_dba',
     },

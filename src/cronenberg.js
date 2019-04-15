@@ -6,12 +6,9 @@ class Cronenberg {
   }
 
   add (cronTime, funcToExecuteOnTick) {
-    let onTick = () => {
-      setTimeout(() => { funcToExecuteOnTick() }, Math.floor(Math.random() * 60000))
-    }
     this.jobs.push(new cron.CronJob({
       cronTime: cronTime,
-      onTick: onTick,
+      onTick: funcToExecuteOnTick,
       start: false,
       runOnInit: true,
     }))

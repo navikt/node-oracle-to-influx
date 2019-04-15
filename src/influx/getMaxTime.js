@@ -2,11 +2,21 @@ const createInfluxClient = require('./createClient')
 const validateMesurementName = require('./validateMesurementName')
 const logger = require('../utils/Logger')
 const constants = require('../constants')
+const createDate = require('../utils/createDate')
 
+/**
+ * Determines startTime to start pulling data.
+ * @param config
+ * @returns {Promise<never>|Promise<IResults<any> | never>}
+ */
 module.exports = function (config) {
   const influx = createInfluxClient(config)
   if (!validateMesurementName(config.measurementName)) {
     return Promise.reject(new Error(`Det finnes ingen measurement med navn ${config.measurementName} i configen.`))
+  }
+  let defaultMaxTime = new Date('1970-01-01')
+  if (process.env.NODE_ENV === 'development') {
+    defaultMaxTime = createDate(new Date(), -7)
   }
   const queryString = `
          SELECT * FROM "${config.measurementName}"
@@ -17,7 +27,7 @@ module.exports = function (config) {
     if (result[0]) {
       return result[0].time
     } else {
-      return null
+      return defaultMaxTime
     }
   }).catch(err => {
     logger.error(`influx.getMaxTime() failed with error, ${err.message}`, {
