@@ -1,6 +1,6 @@
 {
   "name": "@navikt/oracle-to-influx",
-  "version": "0.8.15",
+  "version": "0.8.16",
   "main": "src/index.js",
   "repository": "https://github.com/navikt/node-oracle-to-influx.git",
   "author": "NAV",
@@ -15,6 +15,9 @@
     "p-queue": "^5.0.0"
   },
   "scripts": {
+    "docker-build": "docker build . -t oracle-to-influx",
+    "docker-start": "yarn docker-stop; yarn docker-build; docker run --name oracle-to-influx -d --cpus=0.2 oracle-to-influx",
+    "docker-stop": "docker stop oracle-to-influx; docker rm oracle-to-influx",
     "test": "yarn wait;NODE_ENV=test mocha tests/*.spec.js",
     "start": "nodemon ./tests/utils/server.js",
     "up": "docker-compose up -d --remove-orphans --build",
