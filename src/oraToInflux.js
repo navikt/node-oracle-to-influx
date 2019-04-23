@@ -58,13 +58,16 @@ const inQueue = {}
 
 module.exports = {
   unshift: async function (task) {
-    const result = await queue.add(() => oraToInflux(task))
-    return result
+    return queue.add(() => oraToInflux(task))
   },
   push: async function (task) {
     const signature = makeCacheKey(task.measurementName, task.environment, task.queryChecksum)
     let result = {
       success: true,
+    }
+    // Resetter køen om den faktisk er helt tom.
+    if (queue.size === 0 && queue.pending === 0) {
+      Object.keys(inQueue).forEach(signature => (inQueue[signature] = false))
     }
     if (!inQueue[signature]) {
       inQueue[signature] = true

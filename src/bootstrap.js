@@ -17,14 +17,23 @@ module.exports = function bootstrap (rawConfig) {
       event: 'UNCAUGHT_EXCEPTION',
       stack_trace: err.stack,
     })
+    process.exit(1)
   })
   process.on('uncaughtException', function (err) {
     logger.error(`Uncaught Exception: ${err.message}`, {
       event: 'UNCAUGHT_EXCEPTION',
       stack_trace: err.stack,
     })
+    process.exit(1)
   })
 
+  process.on('unhandledRejection', function (err, promise) {
+    logger.error(`Unhandled Rejection: ${err.message}`, {
+      event: 'UNHANDLED_REJECTION',
+      stack_trace: err.stack,
+    })
+    process.exit(1)
+  })
   process.env.ORA_SDTZ = 'UTC'
   process.env.TZ = 'UTC'
   app.set('json spaces', 2)
@@ -56,12 +65,6 @@ module.exports = function bootstrap (rawConfig) {
         // pause all jobs on that particular query.
         // }
       })
-    })
-  })
-  process.on('unhandledRejection', function (err, promise) {
-    logger.error(`Unhandled Rejection: ${err.message}`, {
-      event: 'UNHANDLED_REJECTION',
-      stack_trace: err.stack,
     })
   })
   app.get('/ora-to-influx-queue', function (req, res) {

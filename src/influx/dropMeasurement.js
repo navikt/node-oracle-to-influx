@@ -1,4 +1,3 @@
-const createInfluxClient = require('./createClient')
 const constants = require('../constants')
 
 module.exports = async function (influx, conf) {
