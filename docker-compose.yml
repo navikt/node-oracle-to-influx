@@ -1,5 +1,13 @@
 version: '3'
 services:
+  test:
+    build: .
+    environment:
+      - INFLUX_URL=http://influxdb:8086
+      - ORA_CONNECT_STRING=oracle:1521/XE
+      - PORT=8082
+    ports:
+      - "8082:8082"
   influxdb:
     image: influxdb:latest
     ports:
@@ -7,8 +15,8 @@ services:
       - "8086:8086"
       - "8090:8090"
   oracle:
-    image: repo.adeo.no:5443/fpsak-oracle:v201902281601
+    image: docker.pkg.github.com/navikt/fpsak-setup/fpsak-oracle:v20190708
     shm_size: 1gb
     ports:
-      - 1521:1521
+      - "1521:1521"
 

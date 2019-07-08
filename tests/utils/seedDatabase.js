@@ -1,23 +1,11 @@
 const oracledb = require('oracledb')
-const findConfig = require('./config').find
+const ensureSchema = require('./ensureSchema')
 const logger = require('./logger')
-module.exports = async function seedDatabase (numberOfRows, testTable) {
-  const testPassword = 'xxx'
 
+module.exports = async function seedDatabase (numberOfRows, testTable, config) {
   oracledb.autoCommit = true
-
-  const config = findConfig('someMeasurement', 'prod')
-
   const connection = await oracledb.getConnection(config.oraOptions)
-
-  const schemaExistsResult = await connection.execute(`SELECT count(*)  FROM dba_users WHERE USERNAME='${config.schema}'`)
-  if (schemaExistsResult.rows[0][0] === 0) {
-    logger('Schema doesnt, exists will create schema.')
-    await connection.execute(`CREATE USER ${config.schema} IDENTIFIED BY ${testPassword}`)
-  }
-  await connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${config.schema} TIME_ZONE = DBTIMEZONE`)
-  await connection.execute(`ALTER USER ${config.schema} quota unlimited on USERS`)
-
+  await ensureSchema(connection, config.schema)
   const tableExistsResult = await connection.execute(`SELECT count(*) FROM dba_tables where table_name = '${testTable}'`)
   if (tableExistsResult.rows[0][0] === 0) {
     logger('Table doesn\'t, exists will create table.')

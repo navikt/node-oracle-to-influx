@@ -12,9 +12,9 @@ GROUP BY CREATED, DUMMY
     `,
     schema: 'TEST_NODE_ORACLE_TO_INFLUX',
     influx: {
-      url: 'http://localhost:8086',
+      url: process.env.INFLUX_URL || 'http://localhost:8086',
       database: 'metrics',
-      user: 'admin',
+      username: 'admin',
       password: '',
     },
     fields: {
@@ -24,7 +24,7 @@ GROUP BY CREATED, DUMMY
       'DUMMY',
     ],
     oraOptions: {
-      connectString: 'localhost:1521/XE',
+      connectString: process.env.ORA_CONNECT_STRING || 'localhost:1521/XE',
       user: 'vl_dba',
       password: 'vl_dba',
     },

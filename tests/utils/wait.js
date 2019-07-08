@@ -18,7 +18,7 @@ async function waitOnOracle (oraOptions, attempt, message) {
     // 2 minutter bør holde for å komme seg på.
     if (attempt < 120) {
       if (message !== e.message) {
-        logger(`Trying to connect: ${e.message}`)
+        logger(`Trying to connect to ${oraOptions.connectString} -> ${e.message}`)
       }
       attempt++
       await sleep(1000)

@@ -13,6 +13,7 @@ module.exports = function (rawConfigs) {
     conf.environment = conf.environment || defaults.environment
     conf.snapshotMode = conf.snapshotMode || defaults.snapshotMode
     conf.oraQueryParams = conf.oraQueryParams || defaults.oraQueryParams
+    conf.queryString = conf.queryString.trim()
     conf.tags = conf.tags || []
     conf.tags.push(constants.QUERY_CHECKSUM_FIELD_NAME)
     conf.tags.push(constants.ENVIRONMENT)

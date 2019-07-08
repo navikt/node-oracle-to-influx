@@ -4,6 +4,9 @@
 
 Node script/server that moves data to based on polling an oracle based on certain intervals.
 
+### For local package development
 
 
 
+yarn link "@navikt/oracle-to-influx"
+yarn add @navikt/oracle-to-influx
