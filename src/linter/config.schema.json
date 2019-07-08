@@ -1,0 +1,217 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://nav.no/oracle-to-influx/config.schema.json",
+  "type": "object",
+  "title": "The Config Schema",
+  "required": [
+    "measurementName",
+    "tags",
+    "fields",
+    "oraOptions",
+    "environment",
+    "schema",
+    "schedule",
+    "snapshotMode",
+    "queryString",
+    "influx"
+  ],
+  "properties": {
+    "measurementName": {
+      "$id": "#/properties/measurementName",
+      "type": "string",
+      "title": "The Measurementname Schema",
+      "default": "",
+      "examples": [
+        "NumberOfFailedCases"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "queryFile": {
+      "$id": "#/properties/queryFile",
+      "type": "string",
+      "title": "The Queryfile Schema",
+      "default": "",
+      "examples": [
+        "/path/to/some/sql-file-containing-one-query.sql"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "tags": {
+      "$id": "#/properties/tags",
+      "type": "array",
+      "title": "The Tags Schema",
+      "items": {
+        "$id": "#/properties/tags/items",
+        "type": "string",
+        "title": "The Items Schema",
+        "default": "",
+        "examples": [
+          "CATEGORY",
+          "AUTHOR"
+        ],
+        "pattern": "^(.*)$"
+      }
+    },
+    "fields": {
+      "$id": "#/properties/fields",
+      "type": "object",
+      "title": "The Fields Schema",
+      "examples": [
+        "NUMBER_OF_CASES",
+        "NUMBER_OF_FAILED_CASES",
+        "NUMBER_OF_SUCCESSFUL_CASES"
+      ]
+    },
+    "oraOptions": {
+      "$id": "#/properties/oraOptions",
+      "type": "object",
+      "title": "The Oracle Options Schema",
+      "required": [
+        "user",
+        "password",
+        "connectString"
+      ],
+      "properties": {
+        "user": {
+          "$id": "#/properties/oraOptions/properties/user",
+          "type": "string",
+          "title": "The ORacle User Schema",
+          "default": "",
+          "examples": [
+            "MY_ORACLE_USER"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "password": {
+          "$id": "#/properties/oraOptions/properties/password",
+          "type": "string",
+          "title": "The Oracle Password Schema",
+          "default": "",
+          "examples": [
+            "**secret**"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "connectString": {
+          "$id": "#/properties/oraOptions/properties/connectionString",
+          "type": "string",
+          "title": "The Oracle Connection String Schema",
+          "default": "",
+          "examples": [
+            "asdfas.adeo.no/service"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "environment": {
+      "$id": "#/properties/environment",
+      "type": "string",
+      "title": "The Environment Schema",
+      "default": "prod",
+      "examples": [
+        "prod",
+        "preprod"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "schema": {
+      "$id": "#/properties/schema",
+      "type": "string",
+      "title": "The Schema Schema",
+      "default": "",
+      "examples": [
+        "FPRISK_P",
+        "FPSAK_P"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "schedule": {
+      "$id": "#/properties/schedule",
+      "type": "string",
+      "title": "The Schedule Schema",
+      "default": "*/10 6-22 * * *",
+      "examples": [
+        "*/5 6-22 * * *"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "snapshotMode": {
+      "$id": "#/properties/snapshotMode",
+      "type": "boolean",
+      "title": "The Snapshotmode Schema",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "oraQueryParams": {
+      "$id": "#/properties/oraQueryParams",
+      "type": "object",
+      "title": "The Oraqueryparams Schema"
+    },
+    "queryString": {
+      "$id": "#/properties/queryString",
+      "type": "string",
+      "title": "The Querystring Schema",
+      "default": "",
+      "examples": [
+        "select dummy from dual"
+      ]
+    },
+    "influx": {
+      "$id": "#/properties/influx",
+      "type": "object",
+      "title": "The Influx Schema",
+      "required": [
+        "url",
+        "database",
+        "username",
+        "password"
+      ],
+      "properties": {
+        "url": {
+          "$id": "#/properties/influx/properties/url",
+          "type": "string",
+          "title": "The Url Schema",
+          "default": "",
+          "examples": [
+            "https://fp-influxdb.nais.preprod.local:443"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "database": {
+          "$id": "#/properties/influx/properties/database",
+          "type": "string",
+          "title": "The Database Schema",
+          "default": "metrics",
+          "examples": [
+            "metrics"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "username": {
+          "$id": "#/properties/influx/properties/username",
+          "type": "string",
+          "title": "The Username Schema",
+          "default": "admin",
+          "examples": [
+            "****"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "password": {
+          "$id": "#/properties/influx/properties/password",
+          "type": "string",
+          "title": "The Password Schema",
+          "default": "",
+          "examples": [
+            "****"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  }
+}

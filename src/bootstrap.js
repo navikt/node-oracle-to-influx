@@ -3,14 +3,19 @@ const cron = require('./utils/Cronenberg')
 const express = require('express')
 const oraToInflux = require('./oraToInflux')
 const setConfig = require('./utils/config').set
-
+const isObject = require('./utils/isObject')
 /**
  * Will start the cronjob and return the utility server.
  *
  * @param rawConfig
  * @returns {app}
  */
-module.exports = function bootstrap (rawConfig) {
+module.exports = function bootstrap (rawConfig, options) {
+  const appOptions = options || {}
+  if (!isObject(appOptions)) {
+    throw new Error('Options provided to the bootstrap function must be an object.')
+  }
+  appOptions.version = appOptions.version || null
   const app = express()
   process.on('error', function (err) {
     logger.error(`Error hello: ${err.message}`, {
@@ -36,6 +41,7 @@ module.exports = function bootstrap (rawConfig) {
   })
   process.env.ORA_SDTZ = 'UTC'
   process.env.TZ = 'UTC'
+  app.set('options', appOptions)
   app.set('json spaces', 2)
   app.get('/', require('./routes/home'))
   app.get('/_admin', require('./routes/_admin'))

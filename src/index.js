@@ -1,5 +1,6 @@
 module.exports = {
   bootstrap: require('./bootstrap'),
-  linter: require('./linter'),
+  lintConfig: require('./linter/lintConfig'),
+  lintConfigs: require('./linter/lintConfigs'),
   oraToInflux: require('./oraToInflux'),
 }

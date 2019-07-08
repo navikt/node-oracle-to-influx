@@ -1,17 +1,18 @@
 {
   "name": "@navikt/oracle-to-influx",
-  "version": "0.8.16",
+  "version": "0.8.17",
   "main": "src/index.js",
   "repository": "https://github.com/navikt/node-oracle-to-influx.git",
   "author": "NAV",
   "license": "MIT",
   "dependencies": {
+    "ajv": "^6.10.0",
     "async": "^2.6.2",
     "cron": "^1.7.0",
     "express": "^4.16.3",
     "influx": "^5.0.7",
     "node-cache": "^4.2.0",
-    "oracledb": "*",
+    "oracledb": "^3.1.2",
     "p-queue": "^5.0.0"
   },
   "scripts": {

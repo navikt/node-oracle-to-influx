@@ -1,5 +1,5 @@
 const Influx = require('influx')
-const url = require('url')
+const URL = require('url').URL
 
 /**
  * @param config
@@ -13,7 +13,7 @@ module.exports = function (config) {
       tags: config.tags,
     },
   ]
-  const parts = url.parse(config.influx.url)
+  const parts = new URL(config.influx.url)
   const protocol = parts.protocol.replace(':', '')
   return new Influx.InfluxDB({
     host: parts.hostname,

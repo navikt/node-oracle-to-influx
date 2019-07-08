@@ -4,12 +4,10 @@ jobs:
     docker:
       - image: collinestes/docker-node-oracle:latest
 
-      # https://circleci.com/docs/2.0/google-auth/#authorizing-the-google-cloud-sdk
-      - image: eu.gcr.io/beste-adm/oracle:v20190408
-        command: [--shm-size=1g]
+      - image: docker.pkg.github.com/navikt/fpsak-setup/fpsak-oracle:v20190708
         auth:
-          username: _json_key
-          password: $GCLOUD_SERVICE_KEY
+          username: $GITHUB_USERNAME
+          password: $GITHUB_PASSWORD
 
       - image: influxdb:latest
 
@@ -17,16 +15,15 @@ jobs:
 
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
+      - restore_cache: # Download and cache dependencies
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: npm install -g n && n latest
+      - run: npm install -g n && n lts
       - run: node -v
-      - run: yarn install
+      - run: yarn install --ignore-optional
+      - run: yarn upgrade
 
       - save_cache:
           paths:
@@ -34,7 +31,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run:  yarn test
+      - run: yarn test
 
   deploy:
     docker:
@@ -51,8 +48,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - build:
+          context: familie-ci
       - deploy:
+          context: familie-ci
           requires:
             - build
           filters:

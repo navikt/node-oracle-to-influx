@@ -1,7 +1,7 @@
 const assert = require('assert')
 const findConfig = require('./utils/config').find
 const dropDatabaseIfExists = require('./utils/dropDatabaseIfExists')
-const seedDatabase = require('./utils/seed')
+const seedDatabase = require('./utils/seedDatabase')
 const createInfluxClient = require('../src/influx/createClient')
 const oraToInflux = require('../src/oraToInflux')
 const testTable = 'TEST_TABLE_NAME'
@@ -16,9 +16,10 @@ http.request = function wrapMethodRequest (req) {
 }
 
 describe('Oracle To Influx', function () {
+
   it('skal fungere for store datasett', async () => {
-    await seedDatabase(100000, testTable)
     const conf = findConfig('someMeasurement', 'prod')
+    await seedDatabase(100000, testTable, conf)
     const influx = createInfluxClient(conf)
     await dropDatabaseIfExists(influx, conf.influx.database)
     const result = await oraToInflux.push(conf)
@@ -26,8 +27,8 @@ describe('Oracle To Influx', function () {
   }).timeout(10000)
 
   it('similar items should be removed from queue', async () => {
-    await seedDatabase(2500, testTable)
     const conf = findConfig('someMeasurement', 'prod')
+    await seedDatabase(2500, testTable, conf)
     conf.queryChecksum = 'RANDOMVALUE'
     const influx = createInfluxClient(conf)
     await dropDatabaseIfExists(influx, conf.influx.database)
