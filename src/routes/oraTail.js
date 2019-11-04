@@ -23,7 +23,6 @@ module.exports = function (req, res) {
     if (!conf.queryString.match(/order by/i)) {
       conf.queryString = `${conf.queryString} ORDER BY TIME `
     }
-    conf.queryString = `${conf.queryString} DESC`
     conf.maxRows = 1000
     oraConnect(conf,
       function (result) {
