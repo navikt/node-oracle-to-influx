@@ -2,8 +2,6 @@ const assert = require('assert')
 const createInfluxClient = require('../src/influx/createClient')
 const ensureDatabase = require('../src/influx/ensureDatabase')
 const findConfig = require('./utils/config').find
-const express = require('express')
-const logger = require('./utils/logger')
 
 describe('Influx functions', function () {
   it('ensure that database get created ', async () => {
