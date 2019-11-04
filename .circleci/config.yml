@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: collinestes/docker-node-oracle:latest
+      - image: pipekung/node-oracle:latest
 
       - image: docker.pkg.github.com/navikt/fpsak-setup/fpsak-oracle:v20190708
         auth:

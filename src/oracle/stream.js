@@ -3,7 +3,7 @@ const constants = require('../constants')
 const logger = require('../utils/Logger')
 const prepParams = require('./prepParams')
 const operation = 'oracle/stream'
-const PQueue = require('p-queue')
+const { default: PQueue } = require('p-queue')
 
 const oraStream = async function (config, flushFunc) {
   const startProcessTime = Date.now()
@@ -19,7 +19,7 @@ const oraStream = async function (config, flushFunc) {
   const batchSize = 5000
   try {
     connection = await oracledb.getConnection(config.oraOptions)
-    await connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${config.schema} TIME_ZONE = DBTIMEZONE`)
+    await connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${config.schema} TIME_ZONE = 'UTC'`)
     const queryParams = prepParams(config.oraQueryParams)
     stream = connection.queryStream(config.queryString, queryParams)
     stream.on('metadata', function (meta) {

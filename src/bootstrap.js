@@ -63,7 +63,7 @@ module.exports = function bootstrap (rawConfig, options) {
     logger.info(`Query ${queryConfig.measurementName} scheduled (${queryConfig.schedule}).`, {
       log_name: queryConfig.measurementName,
       event: 'QUERY_SCHEDULED',
-      operation: `bootstrap/schedule`,
+      operation: 'bootstrap/schedule',
     })
     cron.add(queryConfig.schedule, function () {
       oraToInflux.push(queryConfig, function (err, result) {

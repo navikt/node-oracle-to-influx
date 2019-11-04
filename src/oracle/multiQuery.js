@@ -10,7 +10,7 @@ const multiQuery = function (oraOptions, queries, cb) {
     }
     oraConnect(connectOptions, function (result) {
       result.metaData.forEach(function (meta, index) {
-        let metricName = meta.name.toLowerCase()
+        const metricName = meta.name.toLowerCase()
         allMetrics[metricName] = result.rows[0][meta.name]
       })
       callback()
