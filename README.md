@@ -1,8 +1,8 @@
 # node-oracle-to-influx
+Node script/server that moves data to based on polling an oracle based on certain intervals.
+
 [![npm version](http://img.shields.io/npm/v/@navikt/oracle-to-influx.svg?style=flat)](https://npmjs.org/package/@navikt/oracle-to-influx "View this project on npm")
 [![CircleCi](http://img.shields.io/circleci/project/github/navikt/node-oracle-to-influx/master.svg?style=flat)](https://circleci.com/gh/navikt/node-oracle-to-influx "View this project on circleci")
-
-Node script/server that moves data to based on polling an oracle based on certain intervals.
 
 ### Configuration
 The server will take a config which will be something like this
