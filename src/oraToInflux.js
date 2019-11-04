@@ -1,4 +1,3 @@
-const async = require('async')
 const influxGetMaxTime = require('./influx/getMaxTime')
 const ensureDatabase = require('./influx/ensureDatabase')
 const dropMeasurement = require('./influx/dropMeasurement')
@@ -6,7 +5,7 @@ const oraStream = require('./oracle/stream')
 const createInfluxClient = require('./influx/createClient')
 const logger = require('./utils/Logger')
 const makeCacheKey = require('./utils/makeCacheKey')
-const PQueue = require('p-queue')
+const { default: PQueue } = require('p-queue')
 
 const queue = new PQueue({ concurrency: 1 })
 
@@ -43,8 +42,8 @@ const oraToInflux = async function (conf) {
   } catch (err) {
     logger.error(err.message, {
       log_name: conf.measurementName,
-      event: `BATCHJOB_FAILED`,
-      operation: `ora-to-influx`,
+      event: 'BATCHJOB_FAILED',
+      operation: 'ora-to-influx',
       processing_time: Date.now() - startProcessTime,
       stack_trace: err.stack,
     })

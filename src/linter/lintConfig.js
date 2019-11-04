@@ -20,7 +20,7 @@ const getRequiredFields = function (config) {
 const lintConfig = function (queryConfig) {
   const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
   const validate = ajv.compile(configSchema)
-  let valid = validate(queryConfig)
+  const valid = validate(queryConfig)
   let allErrors = []
   if (!valid) {
     allErrors = allErrors.concat(validate.errors)

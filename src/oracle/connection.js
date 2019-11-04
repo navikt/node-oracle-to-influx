@@ -28,7 +28,7 @@ module.exports = function (conf, functionCallback) {
   const startTime = new Date()
   const startMemory = process.memoryUsage().heapUsed
   let connection
-  let prevResult = {
+  const prevResult = {
     metaData: [],
     rows: [],
     error: false,
@@ -62,7 +62,7 @@ module.exports = function (conf, functionCallback) {
 
     function (prevResult, asyncCb) {
       if (conf.schema) {
-        connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${conf.schema} TIME_ZONE = DBTIMEZONE`, function (err) {
+        connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${conf.schema} TIME_ZONE = 'UTC'`, function (err) {
           asyncCb(err, prevResult)
         })
       } else {
@@ -85,7 +85,7 @@ module.exports = function (conf, functionCallback) {
           result.error = false
         }
         result.rows.forEach(function (row, rowIndex) {
-          let newRow = {}
+          const newRow = {}
           result.metaData.forEach(function (meta, metaIndex) {
             newRow[meta.name] = row[metaIndex]
           })

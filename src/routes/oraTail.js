@@ -13,7 +13,7 @@ module.exports = function (req, res) {
   const conf = findConfig(req.params.measurementName, req.params.environment)
   if (conf) {
     if (!conf.snapshotMode) {
-      let UPDATED_TIME = createDate(new Date(), -7)
+      const UPDATED_TIME = createDate(new Date(), -7)
       UPDATED_TIME.setMinutes(0)
       UPDATED_TIME.setHours(0)
       UPDATED_TIME.setMilliseconds(0)
@@ -23,7 +23,6 @@ module.exports = function (req, res) {
     if (!conf.queryString.match(/order by/i)) {
       conf.queryString = `${conf.queryString} ORDER BY TIME `
     }
-    conf.queryString = `${conf.queryString} DESC`
     conf.maxRows = 1000
     oraConnect(conf,
       function (result) {
