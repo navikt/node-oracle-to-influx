@@ -49,7 +49,7 @@ module.exports = function (conf, functionCallback) {
         connection = c
         if (err) {
           logger.error(`Error connecting to ${oraOptions.connectString} : ${err.message}`, {
-            log_name: conf.measurementName,
+            log_name: `${conf.measurementName}-${conf.environment}`,
             event: 'ORACLE_ERROR',
             operation: 'oracle/connection/get-connection',
             stack_trace: err.stack,
@@ -74,7 +74,7 @@ module.exports = function (conf, functionCallback) {
       connection.execute(sql, params, function (err, result) {
         if (err) {
           logger.error(`Error executing query on ${oraOptions.connectString} : ${err.message}`, {
-            log_name: conf.measurementName,
+            log_name: `${conf.measurementName}-${conf.environment}`,
             event: 'ORACLE_ERROR',
             operation: 'oracle/connection/execute',
             stack_trace: err.stack,

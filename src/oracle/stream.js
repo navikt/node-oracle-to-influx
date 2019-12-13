@@ -22,7 +22,7 @@ const oraStream = async function (config, flushFunc) {
     await connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = ${config.schema} TIME_ZONE = 'UTC'`)
     const queryParams = prepParams(config.oraQueryParams)
     stream = connection.queryStream(config.queryString, queryParams)
-    stream.on('metadata', function (meta) {
+    stream.on('metadata', async function (meta) {
       meta.forEach(v => metadata.push(v.name))
       config.tags.forEach(function (tagName) {
         if (!ignoredFields.includes(tagName) && !metadata.includes(tagName)) {
@@ -67,7 +67,7 @@ const oraStream = async function (config, flushFunc) {
     })
   } catch (err) {
     logger.error(err.message, {
-      log_name: config.measurementName,
+      log_name: `${config.measurementName}-${config.environment}`,
       event: 'ORACLE_ERROR',
       operation,
       stack_trace: err.stack,
@@ -76,12 +76,15 @@ const oraStream = async function (config, flushFunc) {
   }
 
   return new Promise(function (resolve, reject) {
+    stream.on('close', async function () {
+      await connection.close()
+    })
     stream.on('end', async function () {
       if (points.length > 0) {
         await queue.add(async () => flushFunc(points))
         numberOfBatches++
       }
-      await connection.close()
+
       const processingTime = (Date.now() - startProcessTime) / 1000
       let message
       queue.onIdle().then(() => {
@@ -92,7 +95,7 @@ const oraStream = async function (config, flushFunc) {
             ` and batched in ${numberOfBatches} batches`
         }
         logger.info(message, {
-          log_name: config.measurementName,
+          log_name: `${config.measurementName}-${config.environment}`,
           event: 'BATCHJOB_SUCCESSFUL',
           operation,
           processing_time: processingTime,
@@ -109,7 +112,7 @@ const oraStream = async function (config, flushFunc) {
     })
     stream.on('error', function (err) {
       logger.error(err.message, {
-        log_name: config.measurementName,
+        log_name: `${config.measurementName}-${config.environment}`,
         event: 'BATCHJOB_FAILED',
         operation,
         stack_trace: err.stack,

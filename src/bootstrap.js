@@ -18,7 +18,7 @@ module.exports = function bootstrap (rawConfig, options) {
   appOptions.version = appOptions.version || null
   const app = express()
   process.on('error', function (err) {
-    logger.error(`Error hello: ${err.message}`, {
+    logger.error(`Generic Error: ${err.message}`, {
       event: 'UNCAUGHT_EXCEPTION',
       stack_trace: err.stack,
     })
@@ -59,14 +59,14 @@ module.exports = function bootstrap (rawConfig, options) {
    */
   const configs = setConfig(rawConfig)
 
-  configs.forEach(function (queryConfig) {
-    logger.info(`Query ${queryConfig.measurementName} scheduled (${queryConfig.schedule}).`, {
-      log_name: queryConfig.measurementName,
+  configs.forEach(function (conf) {
+    logger.info(`Query ${conf.measurementName} scheduled (${conf.schedule}).`, {
+      log_name: `${conf.measurementName}-${conf.environment}`,
       event: 'QUERY_SCHEDULED',
       operation: 'bootstrap/schedule',
     })
-    cron.add(queryConfig.schedule, function () {
-      oraToInflux.push(queryConfig, function (err, result) {
+    cron.add(conf.schedule, function () {
+      oraToInflux.push(conf, function (err, result) {
         // if (!result.success) {
         // pause all jobs on that particular query.
         // }

@@ -18,15 +18,15 @@ GROUP BY CREATED, DUMMY
       password: '',
     },
     fields: {
-      'ANTALL': 1,
+      ANTALL: 1,
     },
     tags: [
       'DUMMY',
     ],
     oraOptions: {
-      connectString: process.env.ORA_CONNECT_STRING || 'localhost:1521/XE',
-      user: 'vl_dba',
-      password: 'vl_dba',
+      connectString: process.env.ORA_CONNECT_STRING || 'localhost:1521/xe',
+      user: 'system',
+      password: 'oracle',
     },
   },
 ]

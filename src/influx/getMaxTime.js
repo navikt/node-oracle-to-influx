@@ -30,7 +30,7 @@ module.exports = function (influx, config) {
     }
   }).catch(err => {
     logger.error(`influx.getMaxTime() failed with error, ${err.message}`, {
-      log_name: config.measurementName,
+      log_name: `${config.measurementName}-${config.environment}`,
       operation: 'influx/get-max-time',
       event: 'INFLUXDB_ERROR',
       stack_trace: err.stack,
