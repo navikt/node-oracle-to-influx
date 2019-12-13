@@ -41,7 +41,7 @@ const oraToInflux = async function (conf) {
     functionResult.oraQueryParams = conf.oraQueryParams
   } catch (err) {
     logger.error(err.message, {
-      log_name: conf.measurementName,
+      log_name: `${conf.measurementName}-${conf.environment}`,
       event: 'BATCHJOB_FAILED',
       operation: 'ora-to-influx',
       processing_time: Date.now() - startProcessTime,

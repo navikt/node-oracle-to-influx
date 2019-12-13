@@ -14,9 +14,9 @@ module.exports = function (req, res) {
       })
     }).catch(err => {
       logger.error(`influxTail failed with error, ${err.message}`, {
+        log_name: `${conf.measurementName}-${conf.environment}`,
         event: 'INFLUXDB_ERROR',
         operation: 'influx/tail',
-        log_name: conf.measurementName,
         stack_trace: err.stack,
       })
       res.status(500).json({

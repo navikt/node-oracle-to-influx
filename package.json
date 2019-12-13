@@ -1,6 +1,6 @@
 {
   "name": "@navikt/oracle-to-influx",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "main": "src/index.js",
   "repository": "https://github.com/navikt/node-oracle-to-influx.git",
   "author": "NAV",
@@ -27,7 +27,7 @@
     "wait": "node ./tests/utils/wait.js "
   },
   "devDependencies": {
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.0.0",
@@ -35,7 +35,7 @@
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
     "mocha": "^6.0.2",
-    "nodemon": "^1.18.10"
+    "nodemon": "^2.0.2"
   },
   "resolutions": {
     "**/event-stream": "^4.0.1"
