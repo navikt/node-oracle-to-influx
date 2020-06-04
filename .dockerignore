@@ -1,4 +1,4 @@
-*.log
-.circleci
-node_modules
-*.lock
+*
+!src
+!tests
+!package.json

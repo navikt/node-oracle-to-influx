@@ -80,6 +80,7 @@ const oraStream = async function (config, flushFunc) {
       await connection.close()
     })
     stream.on('end', async function () {
+      stream.destroy()
       if (points.length > 0) {
         await queue.add(async () => flushFunc(points))
         numberOfBatches++

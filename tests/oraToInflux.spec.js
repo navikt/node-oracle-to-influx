@@ -24,7 +24,7 @@ describe('Oracle To Influx', function () {
     await dropDatabaseIfExists(influx, conf.influx.database)
     const result = await oraToInflux.push(conf)
     assert.strictEqual(result.batchedWrittenToInflux, 20)
-  }).timeout(10000)
+  }).timeout(20000)
 
   it('similar items should be removed from queue', async () => {
     const conf = findConfig('someMeasurement', 'prod')
