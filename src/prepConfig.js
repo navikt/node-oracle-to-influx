@@ -17,6 +17,8 @@ module.exports = function (rawConfigs) {
     conf.tags = conf.tags || []
     conf.tags.push(constants.QUERY_CHECKSUM_FIELD_NAME)
     conf.tags.push(constants.ENVIRONMENT)
+    conf.numberOfFails = 0
+    conf.lastFailed = null
   })
   return rawConfigs
 }

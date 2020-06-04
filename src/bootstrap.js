@@ -4,6 +4,7 @@ const express = require('express')
 const oraToInflux = require('./oraToInflux')
 const setConfig = require('./utils/config').set
 const isObject = require('./utils/isObject')
+const shouldBackOff = require('./utils/shouldBackOff')
 /**
  * Will start the cronjob and return the utility server.
  *
@@ -65,11 +66,19 @@ module.exports = function bootstrap (rawConfig, options) {
       event: 'QUERY_SCHEDULED',
       operation: 'bootstrap/schedule',
     })
+
     cron.add(conf.schedule, function () {
+      if (shouldBackOff(conf.numberOfFails, conf.lastFailed, Date.now())) {
+        return
+      }
       oraToInflux.push(conf, function (err, result) {
-        // if (!result.success) {
-        // pause all jobs on that particular query.
-        // }
+        if (!result.success) {
+          conf.numberOfFails++
+          conf.lastFailed = Date.now()
+        } else {
+          conf.numberOfFails = 0
+          conf.lastFailed = null
+        }
       })
     })
   })
